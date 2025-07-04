@@ -45,3 +45,25 @@ pub fn mint_shares_to_user<'info>(
 
     Ok(())
 }
+
+// burn shares from user
+pub fn burn_shares_from_user<'info>(
+    share_mint: AccountInfo<'info>,
+    authority: AccountInfo<'info>,
+    from: AccountInfo<'info>,
+    token_program: &Program<'info, Token>,
+    amount: u64,
+) -> Result<()> {
+    let cpi_ctx: CpiContext<_> = CpiContext::new_with_signer(
+        token_program.to_account_info(),
+        token::Burn {
+            mint: share_mint.to_account_info(),
+            from: from.to_account_info(),
+            authority: authority.to_account_info(),
+        },
+    );
+
+    token::burn(cpi_ctx, amount)?;
+
+    Ok(())
+}

@@ -101,12 +101,13 @@ impl<'info> Deposit<'info> {
             shares > 0,
             ErrorCode::DepositSharesTooLow
         );
+        
+        // Transfer tokens from user to vault
         omnifarming_info.total_assets = omnifarming_info
             .total_assets
             .checked_add(amount)
             .ok_or(ErrorCode::Overflow)?;
-
-        // Transfer tokens from user to vault
+            
         token_transfer_from_user(
             ctx.accounts.user_token_account.to_account_info(),
             ctx.accounts.user.to_account_info(),
