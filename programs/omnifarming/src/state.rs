@@ -10,12 +10,12 @@ pub struct OmniFarmingInfo {
     pub fee_receiver: Pubkey,
 
     pub total_supply: u64,
-    pub total_supply_locked: u64,
-    pub min_deposit_amount: u64,
-    pub min_shares_withdrawal: u64,
+    pub total_locked_shares: u64,
+    pub min_deposit: u64,
+    pub min_withdraw: u64,
 
     pub management_fee: u64,
-    // pub last_fee_collection_time: i64,
+    pub last_fee_collection_time: i64,
 }
 
 #[account]
@@ -30,4 +30,7 @@ pub struct OmniFarmingUser {
 pub struct OmniFarmingConfig {
     pub new_exit_fee: u64,
     pub new_management_fee: u64,
+    pub new_governance: Pubkey,
+    pub new_agent: Pubkey,
+    pub new_fee_receiver: Pubkey,
 }

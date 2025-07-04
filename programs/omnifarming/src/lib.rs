@@ -10,15 +10,12 @@ pub mod omnifarming {
 
     pub fn initialize(
         ctx: Context<Initialize>, 
-        governance: Pubkey, 
-        agent: Pubkey,
-        beneficiary: Pubkey,
         min_deposit: u64,
         min_withdraw: u64,
         fee_bps: u64,
         init_deposit_amount: u64,
     ) -> Result<()> {
-        return Initialize::process(ctx, governance, agent, fee_receiver, min_deposit, min_withdraw, fee_bps, init_deposit_amount);
+        return Initialize::process(ctx, min_deposit, min_withdraw, fee_bps, init_deposit_amount);
     }
 
     pub fn deposit(ctx: Context<Deposit>, amount: u64) -> Result<()> {
