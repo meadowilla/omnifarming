@@ -46,7 +46,7 @@ pub struct Deposit<'info> {
         constraint = user_token_account.owner == user.key(),
         constraint = user_token_account.mint == token_mint.key(),
     )]
-    pub user_token_account: Box<InterfaceAccount<'info, TokenAccount>>,
+    pub user_token_account: Box<InterfaceAccount<'info, TokenAccount>>, // don't belong to this program
 
     #[account(
         init_if_needed,
@@ -54,13 +54,13 @@ pub struct Deposit<'info> {
         associated_token::mint = share_mint,
         associated_token::authority = user,
     )]
-    pub user_share_account: Box<InterfaceAccount<'info, TokenAccount>>,
+    pub user_share_account: Account<'info, TokenAccount>, // belong to this program
 
     #[account(
         mut,
         seeds = [VAULT_TOKEN, token_mint.key().as_ref()],
     )]
-    pub vault_token_account: Box<InterfaceAccount<'info, TokenAccount>>,
+    pub vault_token_account: Account<'info, TokenAccount>, // belong to this program
 
     #[account(mut)]
     pub user: Signer<'info>,

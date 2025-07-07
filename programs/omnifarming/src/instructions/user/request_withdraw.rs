@@ -1,8 +1,42 @@
 use anchor_lang::prelude::*;
+use crate::{
+    constants::{OMNIFARMING_INFO_SEED, OMNIFARMING_USER_SEED, SHARE_TOKEN},
+}
 
 pub struct RequestWithdraw<'info> {
-    
-    
+    #[account(
+        mut,
+        seeds = [OMNIFARMING_INFO_SEED],
+        bump,
+    )]
+    pub omnifarming_info: Account<'info, OmniFarmingInfo>,
+
+    #[account(
+        mut,
+        seeds = [OMNIFARMING_USER_SEED, user.key().as_ref(), token_mint.key().as_ref()],
+        bump,
+    )]
+    pub user_reserve: Account<'info, OmniFarmingUser>,
+
+    pub token_mint: Account<'info, TokenMint>,
+    #[account(
+        seeds = [SHARE_TOKEN],
+        bump,
+    )]
+    pub share_mint: Account<'info, TokenMint>,
+
+    pub user: Signer<'info>,
+    pub token_program: Program<'info, TokenProgram>,
+
+    #[account(
+        associated_token::mint = share_mint,
+        associated_token::authority = user,
+    )]
+    pub user_share_account: Account<'info, TokenAccount>,
+
+    // modify the state in helper functions ? is it ok?
+    // NO! Due to modify state directly requires the accounts to be defined in the context, 
+    // which cannot be done in helper functions!
 
 }
 
